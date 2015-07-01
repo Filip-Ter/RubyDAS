@@ -1,10 +1,10 @@
 require 'rubygems'
 require 'rubygems/specification' unless defined?(Gem::Specification)
 require 'rake/testtask'
-require 'rake/gempackagetask'
-gem 'rdoc', '=2.1.0'
+require 'rake/packagetask'
+gem 'rdoc', '=4.2.0'
 require 'rdoc/rdoc'
-require 'rake/rdoctask'
+require 'rake/task'
 
 def gemspec
     @gemspec ||= begin
@@ -34,7 +34,7 @@ task :release => :package do
       sh "gem push pkg/#{gemspec.name}-#{gemspec.version}.gem"
 end
 
-Rake::GemPackageTask.new(gemspec) do |pkg|
+Rake::PackageTask.new(gemspec) do |pkg|
     pkg.need_zip = true
     pkg.need_tar = true
 

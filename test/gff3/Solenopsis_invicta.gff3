@@ -1,0 +1,28 @@
+##gff-version 3
+##sequence-region Si_gnH.scaffold00042 1 1668831
+Si_gnH.scaffold00042	afra	gene	367231	368768	.	-	.	ID=gene1;Name=maker-Si_gnH.scaffold00042-augustus-gene-3.16-mRNA-1;
+Si_gnH.scaffold00042	afra	mRNA	367231	368768	.	-	.	ID=mRNA1;Name=maker-Si_gnH.scaffold00042-augustus-gene-3.16-mRNA-1;Parent=gene1
+Si_gnH.scaffold00042	afra	exon	367231	367528	.	-	.	ID=exon1;Name=maker-Si_gnH.scaffold00042-augustus-gene-3.16-mRNA-1:exon1;Parent=mRNA1
+Si_gnH.scaffold00042	afra	CDS	367432	367528	.	-	0	ID=CDS1;Name=maker-Si_gnH.scaffold00042-augustus-gene-3.16-mRNA-1:CDS1;Parent=mRNA1
+Si_gnH.scaffold00042	afra	exon	368150	368266	.	-	.	ID=exon2;Name=maker-Si_gnH.scaffold00042-augustus-gene-3.16-mRNA-1:exon2;Parent=mRNA1
+Si_gnH.scaffold00042	afra	CDS	368150	368266	.	-	2	ID=CDS2;Name=maker-Si_gnH.scaffold00042-augustus-gene-3.16-mRNA-1:CDS2;Parent=mRNA1
+Si_gnH.scaffold00042	afra	exon	368488	368594	.	-	.	ID=exon3;Name=maker-Si_gnH.scaffold00042-augustus-gene-3.16-mRNA-1:exon3;Parent=mRNA1
+Si_gnH.scaffold00042	afra	CDS	368488	368594	.	-	2	ID=CDS3;Name=maker-Si_gnH.scaffold00042-augustus-gene-3.16-mRNA-1:CDS3;Parent=mRNA1
+Si_gnH.scaffold00042	afra	CDS	368711	368753	.	-	0	ID=CDS4;Name=maker-Si_gnH.scaffold00042-augustus-gene-3.16-mRNA-1:CDS4;Parent=mRNA1
+Si_gnH.scaffold00042	afra	exon	368711	368768	.	-	.	ID=exon4;Name=maker-Si_gnH.scaffold00042-augustus-gene-3.16-mRNA-1:exon4;Parent=mRNA1
+Si_gnH.scaffold00042	afra	mRNA	367782	367894	.	-	.	ID=mRNA2;Name=Sinv_B_est201310.comp661_c0_seq1;Parent=gene1
+Si_gnH.scaffold00042	afra	exon	367782	367894	.	-	.	ID=exon5;Name=Sinv_B_est201310.comp661_c0_seq1:exon1;Parent=mRNA2
+Si_gnH.scaffold00042	afra	mRNA	367253	368768	.	-	.	ID=mRNA3;Name=Sinv_B_est201310.comp661_c0_seq1;Parent=gene1
+Si_gnH.scaffold00042	afra	exon	367253	367528	.	-	.	ID=exon6;Name=Sinv_B_est201310.comp661_c0_seq1:exon1;Parent=mRNA3
+Si_gnH.scaffold00042	afra	exon	367782	367894	.	-	.	ID=exon7;Name=Sinv_B_est201310.comp661_c0_seq1:exon2;Parent=mRNA3
+Si_gnH.scaffold00042	afra	exon	368150	368266	.	-	.	ID=exon8;Name=Sinv_B_est201310.comp661_c0_seq1:exon3;Parent=mRNA3
+Si_gnH.scaffold00042	afra	exon	368488	368594	.	-	.	ID=exon9;Name=Sinv_B_est201310.comp661_c0_seq1:exon4;Parent=mRNA3
+Si_gnH.scaffold00042	afra	exon	368711	368768	.	-	.	ID=exon10;Name=Sinv_B_est201310.comp661_c0_seq1:exon5;Parent=mRNA3
+Si_gnH.scaffold00042	afra	mRNA	421614	422507	.	+	.	ID=mRNA4;Name=maker-Si_gnH.scaffold00042-snap-gene-4.34-mRNA-1;Parent=gene1
+Si_gnH.scaffold00042	afra	exon	421614	422507	.	+	.	ID=exon11;Name=maker-Si_gnH.scaffold00042-snap-gene-4.34-mRNA-1:exon1;Parent=mRNA4
+Si_gnH.scaffold00042	afra	mRNA	421614	422507	.	+	.	ID=mRNA5;Name=Sinv_B_est201310.comp17117_c0_seq3;Parent=gene1
+Si_gnH.scaffold00042	afra	exon	421614	422507	.	+	.	ID=exon12;Name=Sinv_B_est201310.comp17117_c0_seq3:exon1;Parent=mRNA5
+Si_gnH.scaffold00042	afra	mRNA	423841	424042	.	+	.	ID=mRNA6;Name=Sinv_B_est201310.comp17117_c0_seq2;Parent=gene1
+Si_gnH.scaffold00042	afra	exon	423841	424042	.	+	.	ID=exon13;Name=Sinv_B_est201310.comp17117_c0_seq2:exon1;Parent=mRNA6
+Si_gnH.scaffold00042	afra	mRNA	423837	424042	.	+	.	ID=mRNA7;Name=NV14118-PA;Parent=gene1
+Si_gnH.scaffold00042	afra	exon	423837	424042	.	+	.	ID=exon14;Name=NV14118-PA:exon1;Parent=mRNA7

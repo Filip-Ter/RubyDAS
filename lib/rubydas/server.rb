@@ -16,10 +16,15 @@ class SegmentCall
   end
 end
   
+def make_db_path
+  prefix = 'sqlite://' + File.expand_path('../../data') + '/'
+  return prefix + ((ARGV.length > 0) ? ARGV[0] : 'test.db')
+end
 
 get '/das/rubydas/features' do
   
-  DataMapper.setup(:default, 'sqlite:///Users/gedankenstuecke/Documents/RubyDAS/data/test.db')
+  puts make_db_path
+  DataMapper.setup(:default, make_db_path)
   adapter = DataMapper.repository(:default).adapter
   
   @query = CGI.parse(request.query_string)
@@ -110,7 +115,7 @@ end
 
 get '/das/rubydas/types' do
   
-  DataMapper.setup(:default, 'sqlite:///Users/gedankenstuecke/Documents/RubyDAS/data/test.db')
+  DataMapper.setup(:default, make_db_path)
   adapter = DataMapper.repository(:default).adapter
   
   @query = CGI.parse(request.query_string)
@@ -182,7 +187,7 @@ end
 
 get '/das/rubydas/sequence' do
   
-  DataMapper.setup(:default, 'sqlite:///Users/gedankenstuecke/Documents/RubyDAS/data/test.db')
+  DataMapper.setup(:default, make_db_path)
   adapter = DataMapper.repository(:default).adapter
   
   @query = CGI.parse(request.query_string)
@@ -270,7 +275,7 @@ end
 
 get '/das/rubydas/entry_points' do
   
-  DataMapper.setup(:default, 'sqlite:///Users/gedankenstuecke/Documents/RubyDAS/data/test.db')
+  DataMapper.setup(:default, make_db_path)
   adapter = DataMapper.repository(:default).adapter
   
   @query = CGI.parse(request.query_string)

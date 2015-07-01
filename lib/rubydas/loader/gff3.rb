@@ -15,14 +15,15 @@ module RubyDAS
 
             attr_reader :gff
 
-            def initialize
+            def initialize fname
                 @types = Hash[]
                 @segments = Hash[]
+                @fname = fname
             end
 
-            def store filename
-                gff = Bio::GFF::GFF3.new(File.open(filename))
-                puts "storing #{filename}"
+            def store
+                gff = Bio::GFF::GFF3.new(File.open(@fname))
+                puts "storing #{@fname}"
                 gff.records.each do |rec|
                     args = Hash.new
                     if @types.has_key? rec.feature
