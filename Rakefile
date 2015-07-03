@@ -34,7 +34,7 @@ task :release => :package do
       sh "gem push pkg/#{gemspec.name}-#{gemspec.version}.gem"
 end
 
-Rake::PackageTask.new(gemspec) do |pkg|
+Rake::PackageTask.new(gemspec, '0.0.1') do |pkg|
     pkg.need_zip = true
     pkg.need_tar = true
 
@@ -84,6 +84,11 @@ end
 
 task :build_test_fixture => [:build_test_db, :load_test_fa, :load_test_gff3] do
     puts "Loaded test fixture"
+end
+
+desc 'Start server'
+task :serve, [:db_name] do |t, args|
+    system 'ruby lib/rubydas/server.rb ' + args[:db_name]
 end
 
 

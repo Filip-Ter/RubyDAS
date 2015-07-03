@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Alex Kalderimis", "Bastian Greshake"]
   s.email       = ["alex@intermine.org", "bgreshake@googlemail.com"]
   s.summary     = %q{Ruby DAS server}
-  s.description = File.new('README').read
+  s.description = File.new('README.markdown', 'r').read
   s.add_dependency "bio"
   s.add_dependency "data_mapper"
   s.add_dependency "sinatra"
