@@ -279,7 +279,6 @@ get '/das/rubydas/entry_points' do
   adapter = DataMapper.repository(:default).adapter
   
   @query = CGI.parse(request.query_string)
-  puts @query
   
   if @query["rows"] != []
     @rows = @query["rows"][0].split("-")
@@ -308,5 +307,12 @@ end
 get '/das/rubydas/stylesheet' do
   #TODO make actual stylesheet implementation
   #right now just hard coded in builder file 
+
+  response.headers["X-DAS-Capabilities"] = "features/1.1; unknown-segment/1.0; entry_points/1.1; sequence/1.1"
+  response.headers["X-DAS-Server"] = request.env["SERVER_SOFTWARE"].split(" ")[0]
+  response.headers["Access-Control-Allow-Origin"] = "*"
+  response.headers["X-DAS-Status"] = "200"
+  response.headers["X-DAS-Version"] = "DAS/1.6"
+
   builder :stylesheet
 end

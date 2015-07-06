@@ -6,9 +6,13 @@ module RubyDAS
     module Loader
         class FASTA
 
-            def store filename
-                puts "Storing #{filename}"
-                ff = Bio::FlatFile.open(Bio::FastaFormat, filename)
+            def initialize filename
+                @filename = filename
+            end
+
+            def store
+                puts "Storing #{@filename}"
+                ff = Bio::FlatFile.open(Bio::FastaFormat, @filename)
                 ff.each do |entry|
                     s = Sequence.new(
                         :public_id => entry.entry_id,
@@ -36,7 +40,7 @@ module RubyDAS
                                 end
                             end
                             current_seq = ""
-                            print "."
+                            #print "."
                             STDOUT.flush
                         end
                     end

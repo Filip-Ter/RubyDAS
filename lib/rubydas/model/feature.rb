@@ -5,8 +5,8 @@ class Feature
   include DataMapper::Resource
 
   property :id,          Serial    # An auto-increment integer key
-  property :public_id,   String    # An auto-increment integer key
-  property :label,       String    # A varchar type string, for short strings
+  property :public_id,   String, :length => 255    # An auto-increment integer key
+  property :label,       String, :length => 255    # A varchar type string, for short strings
   property :start,       Integer      # A text block, for longer string data.
   property :end,         Integer      # A text block, for longer string data.
   property :method,      String  # A DateTime, for any date you might like.

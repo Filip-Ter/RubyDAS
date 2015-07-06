@@ -49,7 +49,7 @@ module RubyDAS
                     end
 
                     Feature.make(args)
-                    print "."
+                    #print "."
                     STDOUT.flush
                 end
             end
