@@ -87,8 +87,11 @@ task :build_test_fixture => [:build_test_db, :load_test_fa, :load_test_gff3] do
 end
 
 desc 'Start server'
-task :serve, [:db_name] do |t, args|
-    system 'ruby lib/rubydas/server.rb ' + args[:db_name]
+task :start, [:db_name] do |t, args|
+    Dir.chdir('lib/rubydas') do
+        system 'ruby server.rb ' + args[:db_name]
+    end
+    #system 'ruby lib/rubydas/server.rb ' + args[:db_name]
 end
 
 

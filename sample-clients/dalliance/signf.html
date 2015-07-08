@@ -1,0 +1,34 @@
+<script language="javascript" src="http://www.biodalliance.org/release-0.13/dalliance-compiled.js"></script>
+<script language="javascript">
+  new Browser({
+    chr:          'Si_gnF.scaffold02797', //Chagne to Si_gnH
+    viewStart:    5981804,
+    viewEnd:      6028493,
+    noPersist: true,
+    cookieKey:    'si_gnf',
+
+    coordSystem: {
+      speciesName: 'Solenopsis',
+      taxon: 13646,
+      auth: 'Si_', //Irrelevant as DAS Registry is dead
+      version: 'gnF'
+      //ucscName: 'hg18'
+    },
+
+    sources:     [{name:                 'DAS Sequence',      
+                   uri:                  'http://localhost:4567/das/rubydas/',        
+                   tier_type:            'sequence',
+                   provides_entrypoints: true},
+                  {name:                 'DAS Features', 
+                   uri:                  'http://localhost:4567/das/rubydas/'}
+                  /*{name:                 'Repeats',     
+                   uri:                  'http://www.derkholm.net:8080/das/hsa_54_36p/',      
+                   stylesheet_uri:       'http://www.derkholm.net/dalliance-test/stylesheets/ens-repeats.xml'},
+                  {name:                 'MeDIP raw',
+                   uri:                  'http://www.derkholm.net:8080/das/medipseq_reads'},
+                  {name:                 'MeDIP-seq',
+                   uri:                  'http://www.ebi.ac.uk/das-srv/genomicdas/das/batman_seq_SP/'}*/]
+  });
+</script>
+
+<div id="svgHolder"></div>

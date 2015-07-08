@@ -1,3 +1,7 @@
+A fork of [RubyDAS]("https://github.com/alexkalderimis/RubyDAS"), meant to be used with afra eventually and compatible with some DAS clients.
+
+original README below
+
 A gem to use the Distributed Annotation System with Ruby. 
 
 # DAS

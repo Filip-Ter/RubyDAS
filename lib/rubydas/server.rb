@@ -43,10 +43,19 @@ get '/das/rubydas/features' do
       @segments << SegmentCall.new(@segment_name,false,false)
     end
   end   
-  
+
+=begin
+   
+   Ignoring types translation and
+   transcript, temporary to make Dalliance 
+   work.
+=end
+
   # get all types which are of interest 
   @types = []
-  @query["type"].each {|t| @types << t}
+  @query["type"].each{ |t| @types << t }
+
+  #@types.each {|type| puts type}
   
   # get all categories of interest 
   @categories = []
@@ -307,6 +316,24 @@ end
 get '/das/rubydas/stylesheet' do
   #TODO make actual stylesheet implementation
   #right now just hard coded in builder file 
+  DataMapper.setup(:default, make_db_path)
+  adapter = DataMapper.repository(:default).adapter
+
+  #For now just using all types
+
+  #@types = FeatureType.all()
+  @type_labels = FeatureType.all().map { |t| (t.label != "") ? t.label : nil }.compact
+
+  #A temporary color selection
+  @bg_colors = ["white", "orange", "blue", "green", "red", "black", "yellow", "purple", "brown", "gray"]
+
+=begin
+  @types.each do |t| 
+    puts t.label
+    puts t.id
+    puts ""
+  end
+=end
 
   response.headers["X-DAS-Capabilities"] = "features/1.1; unknown-segment/1.0; entry_points/1.1; sequence/1.1"
   response.headers["X-DAS-Server"] = request.env["SERVER_SOFTWARE"].split(" ")[0]
