@@ -39,6 +39,7 @@ module RubyDAS
 
                     args[:label] = rec.get_attribute("Name")
                     args[:public_id] = rec.get_attribute("ID")
+                    args[:parent] = rec.get_attribute("Parent")
                     args[:start] = rec.start
                     args[:end] = rec.end
                     args[:score] = rec.score

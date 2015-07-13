@@ -324,16 +324,35 @@ get '/das/rubydas/stylesheet' do
   #@types = FeatureType.all()
   @type_labels = FeatureType.all().map { |t| (t.label != "") ? t.label : nil }.compact
 
-  #A temporary color selection
   @bg_colors = ["white", "orange", "blue", "green", "red", "black", "yellow", "purple", "brown", "gray"]
 
-=begin
-  @types.each do |t| 
-    puts t.label
-    puts t.id
-    puts ""
+  @afra_colors = {
+    "gene" => "#66bb66",
+    # "mRNA" => "",
+    "exon" => "#4B76E8",
+    # "protein_match" => "",
+    # "match" => "",
+    "match_part" => "#6666bb",
+    # "contig" => "",
+    # "translated_nucleotide_match" => "",
+    # "transcript" => "",
+    "CDS" => "#bb6666"
+  }
+
+  def make_color(type_label, index)
+    if index <= @bg_colors.length
+      @bg_colors[index]
+    else
+      "#" << rand(0xFFFFFF).to_s(16)
+    end
   end
-=end
+
+  @type_labels.each_with_index do |type, i|
+    unless @afra_colors.has_key?(type)  
+      @afra_colors[type] = make_color(type, i)
+    end
+  end
+
 
   response.headers["X-DAS-Capabilities"] = "features/1.1; unknown-segment/1.0; entry_points/1.1; sequence/1.1"
   response.headers["X-DAS-Server"] = request.env["SERVER_SOFTWARE"].split(" ")[0]

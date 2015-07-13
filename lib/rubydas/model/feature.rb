@@ -7,6 +7,7 @@ class Feature
   property :id,          Serial    # An auto-increment integer key
   property :public_id,   String, :length => 255    # An auto-increment integer key
   property :label,       String, :length => 255    # A varchar type string, for short strings
+  property :parent,      String, :length => 255    #parent of current feature, can be null
   property :start,       Integer      # A text block, for longer string data.
   property :end,         Integer      # A text block, for longer string data.
   property :method,      String  # A DateTime, for any date you might like.
@@ -34,6 +35,8 @@ class Feature
 
       seg = attrs.delete(:segment_id)
       attrs[:segment] = Segment.first_or_create(:public_id => seg, :label => seg) if seg
+
+      @parent = attrs[:parent]
 
       relationships = {
           :links => Link,
