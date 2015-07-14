@@ -26,20 +26,30 @@ module RubyDAS
                 puts "storing #{@fname}"
                 gff.records.each do |rec|
                     args = Hash.new
+
                     if @types.has_key? rec.feature
                         args[:feature_type] = @types[rec.feature]
                     else 
                         args[:feature_type] = @types[rec.feature] = FeatureType.create(:label => rec.feature)
                     end
+
                     if @segments.has_key? rec.seqname
                         args[:segment] = @segments[rec.seqname]
                     else 
                         args[:segment] = @segments[rec.seqname] = Segment.create(:public_id => rec.seqname, :label => rec.feature)
                     end
 
+                    #puts args[:feature_type].label
+
                     args[:label] = rec.get_attribute("Name")
                     args[:public_id] = rec.get_attribute("ID")
-                    args[:parent] = rec.get_attribute("Parent")
+
+                    if args[:feature_type].label == "mRNA"
+                        args[:parent] = nil
+                    else
+                        args[:parent] = rec.get_attribute("Parent")
+                    end
+
                     args[:start] = rec.start
                     args[:end] = rec.end
                     args[:score] = rec.score

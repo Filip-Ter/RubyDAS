@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rubygems/specification' unless defined?(Gem::Specification)
+require 'rake'
 require 'rake/testtask'
 require 'rake/packagetask'
 gem 'rdoc', '=4.2.0'
@@ -86,15 +87,27 @@ task :build_test_fixture => [:build_test_db, :load_test_fa, :load_test_gff3] do
     puts "Loaded test fixture"
 end
 
+#new
 desc 'Start server'
-task :start, [:db_name] do |t, args|
+task :run, [:db_name] do |t, args|
     Dir.chdir('lib/rubydas') do
         system 'ruby server.rb ' + args[:db_name]
     end
     #system 'ruby lib/rubydas/server.rb ' + args[:db_name]
 end
 
+gff_files = Rake::FileList.new("data/*.gff")
+
+task :import => gff_files.ext("db")
 
 
-
+rule '.db' => ['.gff'] do |t|
+    str = "Name : #{t.name}, Source: #{t.source}"
+    Dir.chdir('imports') do
+        sh "ruby gff2fasta_rake.rb #{t.source}"
+        sh "ruby import_rake.rb #{t.source} #{t.name} --rewrite"
+        sh "ruby import_rake.rb #{t.source.chomp(".gff").concat(".fasta")} #{t.name}"
+    end
+    sh "rm data/*.fasta"
+end
 

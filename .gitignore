@@ -1,5 +1,9 @@
 .DS_Store
 data/*.db
 test/
-imports/fasta/*.fasta
+imports/fasta/
+imports/gff3/
+Gemfile.lock
+data/fasta/
+data/gff3/
 

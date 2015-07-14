@@ -324,11 +324,11 @@ get '/das/rubydas/stylesheet' do
   #@types = FeatureType.all()
   @type_labels = FeatureType.all().map { |t| (t.label != "") ? t.label : nil }.compact
 
-  @bg_colors = ["white", "orange", "blue", "green", "red", "black", "yellow", "purple", "brown", "gray"]
+  @bg_colors = ["orange", "blue", "green", "red", "black", "yellow", "purple", "brown", "gray"]
 
   @afra_colors = {
     "gene" => "#66bb66",
-    # "mRNA" => "",
+    "mRNA" => "white",
     "exon" => "#4B76E8",
     # "protein_match" => "",
     # "match" => "",

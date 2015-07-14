@@ -9,9 +9,7 @@ xml.DASGFF  do
             features.each do |feature|
               has_parent = feature.parent != nil 
               
-              feature_attrs = {
-                :id => feature.id
-              }
+              feature_attrs = {:id => feature.id}
 
               unless has_parent
                 feature_attrs[:label] = feature.public_id

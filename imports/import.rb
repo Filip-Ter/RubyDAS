@@ -5,6 +5,7 @@ require "rubydas/loader/gff3"
 require "rubydas/loader/fasta"
 
 def usage
+	puts "#{ARGV[0]} #{ARGV[1]} #{ARGV[2]}"
 	puts "Usage test_gff_load.rb <filename> <database> (optional)--rewrite #JUST NAMES NO PATHS"
 	exit
 end
@@ -35,7 +36,7 @@ elsif type == "gff"
 end
 
 DB_PREFIX = 'sqlite://' + File.expand_path('../data') + '/'
-FILE_PREFIX = File.expand_path("./#{type}") + '/'
+FILE_PREFIX = File.expand_path("../data/#{type}") + '/'
 
 db_path = DB_PREFIX + ARGV[1]
 file_path = FILE_PREFIX + ARGV[0]
@@ -49,9 +50,6 @@ unless rewrite
 else
 	DataMapper.auto_migrate!
 end
-
-
-
 
 loader = (type == "gff3") ? RubyDAS::Loader::GFF3.new(file_path) :  RubyDAS::Loader::FASTA.new(file_path)
 loader.store
