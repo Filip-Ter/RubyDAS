@@ -8,11 +8,13 @@
     cookieKey:    'si_gnf',
 
     coordSystem: {
+      //Irrelevant as DAS Registry is dead
       speciesName: 'Solenopsis',
       taxon: 13646,
-      auth: 'Si_', //Irrelevant as DAS Registry is dead
+      auth: 'Si_', //
       version: 'gnF'
       //ucscName: 'hg18'
+      
     },
 
     sources:     [{name:                 'DAS Sequence',      
@@ -20,14 +22,7 @@
                    tier_type:            'sequence',
                    provides_entrypoints: true},
                   {name:                 'DAS Features', 
-                   uri:                  'http://localhost:4567/das/rubydas/'}
-                  /*{name:                 'Repeats',     
-                   uri:                  'http://www.derkholm.net:8080/das/hsa_54_36p/',      
-                   stylesheet_uri:       'http://www.derkholm.net/dalliance-test/stylesheets/ens-repeats.xml'},
-                  {name:                 'MeDIP raw',
-                   uri:                  'http://www.derkholm.net:8080/das/medipseq_reads'},
-                  {name:                 'MeDIP-seq',
-                   uri:                  'http://www.ebi.ac.uk/das-srv/genomicdas/das/batman_seq_SP/'}*/]
+                   uri:                  'http://localhost:4567/das/rubydas/'}]
   });
 </script>
 

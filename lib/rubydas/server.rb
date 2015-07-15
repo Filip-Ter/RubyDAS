@@ -23,11 +23,20 @@ end
 
 get '/das/rubydas/features' do
   
-  puts make_db_path
   DataMapper.setup(:default, make_db_path)
   adapter = DataMapper.repository(:default).adapter
   
   @query = CGI.parse(request.query_string)
+
+  def get_edge(st_end, seg, adapter)
+    results = adapter.select("SELECT #{st_end} FROM FEATURES WHERE START<=#{seg} AND END>=#{seg} AND PARENT IS NULL;")
+
+    if results.length == 0 ##In case there are no overlapping features it's fine to just use the original
+      return seg 
+    end
+
+    return (st_end == "START") ? results.min : results.max
+  end  
   
   # get list of all segments and regions of interest 
   @segments = []
@@ -38,18 +47,21 @@ get '/das/rubydas/features' do
       @positions = @segment_elements[1].split(",")
       @start = @positions[0]
       @stop = @positions[1]
+
+      #p "Start: #{@start}"
+      #p "End: #{@stop}"
+
+      @start = get_edge("START", @start, adapter)
+      @stop = get_edge("END", @stop, adapter)
+
+      #p "New start: #{@start}"
+      #p "New end: #{@stop}"
+
       @segments << SegmentCall.new(@segment_name,@start,@stop)
     else
       @segments << SegmentCall.new(@segment_name,false,false)
     end
   end   
-
-=begin
-   
-   Ignoring types translation and
-   transcript, temporary to make Dalliance 
-   work.
-=end
 
   # get all types which are of interest 
   @types = []
@@ -57,7 +69,6 @@ get '/das/rubydas/features' do
 
   #@types.each {|type| puts type}
   
-  # get all categories of interest 
   @categories = []
   @query["category"].each {|c| @categories << c}
   
@@ -67,6 +78,7 @@ get '/das/rubydas/features' do
   
   # now the fun part starts, check for all the different parameter-things which can be available
   # case #1: segments not empty
+
   if @segments != []
     @features_hash = {}
     @segments.each do |s|
@@ -146,7 +158,7 @@ get '/das/rubydas/types' do
   @filter_types = []
   @query["type"].each {|t| @filter_types << t}
   @types = FeatureType.all()
-  
+
   if @segments != []
     
     @out_hash = {}
@@ -155,6 +167,7 @@ get '/das/rubydas/types' do
       if Segment.all(:public_id => s.segment_name) != []
         @types_hash = {}
         @segment_id = Segment.first(:public_id => s.segment_name).id
+
         @types.each do |t|
           if @filter_types == [] or @filter_types.include?(t.label)
             if s.start != false and s.stop != false 
