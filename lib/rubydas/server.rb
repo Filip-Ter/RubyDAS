@@ -340,9 +340,7 @@ get '/das/rubydas/stylesheet' do
 
   #@types = FeatureType.all()
   @type_labels = FeatureType.all().map { |t| (t.label != "") ? t.label : nil }.compact
-  p @type_labels
-  @pre_loaded_types = []
-
+  
   ##Load pre-defined stylesheet
   ##Using REXML (
   ##Remove elements not contained in DB and add random colors
@@ -363,6 +361,8 @@ get '/das/rubydas/stylesheet' do
 
   TYPES_PATH = "DASSTYLE/STYLESHEET/CATEGORY/TYPE"
 
+  @pre_loaded_types = []
+
   style_doc.elements.each(TYPES_PATH) do |elem|
     @pre_loaded_types.push(elem.attributes["id"])
   end
@@ -372,8 +372,6 @@ get '/das/rubydas/stylesheet' do
 
   #Defined in styles.xml but not in DB
   @redundant = @pre_loaded_types - @type_labels
-  p @type_labels
-  p @redundant
 
   @missing.each do |type|
     new_elem = style_doc.elements[TYPES_PATH.chomp "/TYPE"].add(make_type(type, rand_color))

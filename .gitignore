@@ -6,4 +6,5 @@ imports/gff3/
 Gemfile.lock
 data/fasta/
 data/gff3/
+server.pid
 
