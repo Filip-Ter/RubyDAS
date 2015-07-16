@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE DAS-Stylesheet>
+<DASSTYLE>
+  <STYLESHEET>
+     <CATEGORY id="default">
+        <TYPE id="gene">
+          <GLYPH>
+            <BOX>
+              <HEIGHT>11</HEIGHT>
+              <FGCOLOR>black</FGCOLOR>
+              <BGCOLOR>#66bb66</BGCOLOR>
+              <BUMP>yes</BUMP>
+              <LABEL>yes</LABEL>
+            </BOX>
+          </GLYPH>
+        </TYPE>
+        <TYPE id="mRNA">
+          <GLYPH>
+            <LINE>
+              <HEIGHT>11</HEIGHT>
+              <FGCOLOR>black</FGCOLOR>
+              <BGCOLOR>white</BGCOLOR>
+              <BUMP>yes</BUMP>
+              <LABEL>yes</LABEL>
+            </LINE>
+          </GLYPH>
+        </TYPE>
+           <TYPE id="transcript">
+          <GLYPH>
+            <LINE>
+              <HEIGHT>11</HEIGHT>
+              <FGCOLOR>black</FGCOLOR>
+              <BGCOLOR>white</BGCOLOR>
+              <BUMP>yes</BUMP>
+              <LABEL>yes</LABEL>
+            </LINE>
+          </GLYPH>
+        </TYPE>
+        <TYPE id="exon">
+          <GLYPH>
+            <BOX>
+              <HEIGHT>11</HEIGHT>
+              <FGCOLOR>black</FGCOLOR>
+              <BGCOLOR>#4B76E8</BGCOLOR>
+              <BUMP>yes</BUMP>
+              <LABEL>yes</LABEL>
+            </BOX>
+          </GLYPH>
+        </TYPE>
+        <TYPE id="match_part">
+          <GLYPH>
+            <BOX>
+              <HEIGHT>11</HEIGHT>
+              <FGCOLOR>black</FGCOLOR>
+              <BGCOLOR>#6666bb</BGCOLOR>
+              <BUMP>yes</BUMP>
+              <LABEL>yes</LABEL>
+            </BOX>
+          </GLYPH>
+        </TYPE>
+        <TYPE id="CDS">
+          <GLYPH>
+            <BOX>
+              <HEIGHT>11</HEIGHT>
+              <FGCOLOR>black</FGCOLOR>
+              <BGCOLOR>#bb6666</BGCOLOR>
+              <BUMP>yes</BUMP>
+              <LABEL>yes</LABEL>
+            </BOX>
+          </GLYPH>
+        </TYPE>
+    </CATEGORY>
+  </STYLESHEET>
+</DASSTYLE>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>RubyDAS - Dalliance</title>
+    <!-- meta name="viewport" content="width=device-width, initial-scale=1.0" -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="http://biodalliance.org/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="./main.css" type="text/css" rel="stylesheet"/>
+    <style type="text/css">
+      body {
+        padding-top: 80px;
+        padding-bottom: 40px;
+      }
+    </style>
+
+    <link href="http://biodalliance.org/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <script language="javascript" src="http://www.biodalliance.org/release-0.13/dalliance-compiled.js"></script>
+
+    <script language="javascript">
+      var b = new Browser({
+        chr:          'Si_gnF.scaffold02797',
+        viewStart:    5681804,
+        viewEnd:      6028493,
+        cookieKey:    'si_gnF',
+        maxHeight:    1000,
+        //for dev
+        noPersist: true,
+
+
+        coordSystem: {
+          peciesName: 'Human',
+          taxon: 9606,
+          auth: 'GRCh',
+          version: '37',
+          ucscName: 'hg19',
+        },
+        /*
+        chains: {
+          hg18ToHg19: new Chainset('http://www.derkholm.net:8080/das/hg18ToHg19/', 'NCBI36', 'GRCh37',
+                                   {
+                                      speciesName: 'Human',
+                                      taxon: 9606,
+                                      auth: 'NCBI',
+                                      version: 36,
+                                      ucscName: 'hg18'
+                                   })
+        },*/
+
+       sources:   [{name:               'Sequence',      
+                   uri:                  'http://localhost:4567/das/rubydas/',        
+                   tier_type:            'sequence',
+                   provides_entrypoints: true},
+                  {name:                 'Features', 
+                   uri:                  'http://localhost:4567/das/rubydas/'}],
+
+        uiPrefix: '//www.biodalliance.org/release-0.13/',
+
+        setDocumentTitle: false,
+        disablePoweredBy: true,
+        noTitle: true
+      });
+      
+	  </script>
+
+    <!-- Fav and touch icons -->
+
+
+<!--    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+                    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+                                   <link rel="shortcut icon" href="../assets/ico/favicon.png" -->
+  </head>
+
+  <body>
+
+       <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="index.html">Biodalliance</a>
+         <!--  <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browsing<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="started.html">Getting started</a></li>
+                  <li><a href="adding.html">Add Data</a></li>
+                </ul>
+              </li>
+              
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Embedding<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="embed.html">Embedding</a></li>
+                  <li><a href="config.html">Configuring</a></li>
+                  <li><a href="config-source.html">Source config</a></li>
+                  <li><a href="stylesheets.html">Stylesheets</a></li>
+                  <li><a href="cors.html">CORS</a></li>
+		  <li><a href="https.html">HTTPS Support</a></li>
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Developers<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="notes.html">Release notes</a></li>
+                  <li><a href="interacting.html">Dalliance API</a></li>
+                  <li><a href="plugins.html">Writing plugins</a></li>
+                  <li><a href="contrib.html">Contributing</a></li>
+		            </ul>
+              </li>
+              
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="about.html">About us</a></li>
+                  <li><a href="contact.html">Contacts</a></li>
+                </ul>
+              </li>
+            </ul>
+              
+            <ul class="nav pull-right">  
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Genomes<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="human37.html">Human (GRCh37)</a></li>
+                  <li><a href="human38.html">Human (GRCh38)</a></li>
+                  <li><a href="human36.html">Human (NCBI36)</a></li>
+                  <li><a href="mouse38.html">Mouse (GRCm38)</a></li>
+                  <li><a href="mouse37.html">Mouse (NCBIm37)</a></li>
+                  <li><a href="zfish9.html">Zebrafish (Zv9)</a></li>
+                  <li><a href="worm220.html">C. elegans (WS220)</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div> -->
+          <!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+
+      <div class="hero-unit" style='padding: 35px'>
+	<h3 style='margin-top: 0px'>Powered by RubyDAS</h3>
+        <div id="svgHolder" style="background: white; padding: 5px; margin-top: 20px; height: 800px"></div>
+      </div>
+
+      <!-- Example row of columns -->
+     <!--  <div class="row">
+        <div class="span6">
+	  <h2>Introduction</h2>
+          <p>
+	    Biodalliance is a fast, interactive, genome visualization tool that's easy to <a href='embed.html'>embed</a> in web pages and applications.
+      It supports integration of data from a wide variety of sources, and can load data directly from popular genomics file formats including
+      bigWig, BAM, and VCF.  This means you can build a fully-featured genome browser, such as the example on this page, using only a standard
+      web server and a directory full of files &mdash; no databases or server-side support code are needed.
+          </p>
+        </div>
+        <div class="span6">
+          <h2>News</h2>
+    <p><strong>3 Feb 2015</strong> Dalliance 0.13 is released with BAM and gene rendering improvements</p>
+    <p><strong>July 2014</strong> Discuss Dalliance at <a href="http://www.open-bio.org/wiki/BOSC_2014">BOSC 2014</a></p>
+    <p><strong>8 May</strong> Dalliance 0.12 is released with support for plain BED, WIG, and VCF files, and substantial performance improvements.</p>
+    <p><a href="oldnews.html">Older news...</a>
+       </div>
+
+      </div> -->
+
+      <hr>
+
+      <footer>
+        <p>Last update 12 July 2015</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://biodalliance.org/bootstrap-without-jquery.js"></script>
+
+  </body>
+</html>

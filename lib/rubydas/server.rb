@@ -7,6 +7,9 @@ require_relative "model/feature"
 require_relative "model/sequence"
 
 
+#REXML
+require 'rexml/document'
+
 class SegmentCall
   attr_accessor :segment_name,:start,:stop
   def initialize(segment_name,start,stop)
@@ -29,6 +32,7 @@ get '/das/rubydas/features' do
   @query = CGI.parse(request.query_string)
 
   def get_edge(st_end, seg, adapter)
+    # Select all the feature groups which overlap with the view/start or end
     results = adapter.select("SELECT #{st_end} FROM FEATURES WHERE START<=#{seg} AND END>=#{seg} AND PARENT IS NULL;")
 
     if results.length == 0 ##In case there are no overlapping features it's fine to just use the original
@@ -336,36 +340,49 @@ get '/das/rubydas/stylesheet' do
 
   #@types = FeatureType.all()
   @type_labels = FeatureType.all().map { |t| (t.label != "") ? t.label : nil }.compact
+  p @type_labels
+  @pre_loaded_types = []
 
-  @bg_colors = ["orange", "blue", "green", "red", "black", "yellow", "purple", "brown", "gray"]
+  ##Load pre-defined stylesheet
+  ##Using REXML (
+  ##Remove elements not contained in DB and add random colors
+  ##to those in DB but not in stylesheet
 
-  @afra_colors = {
-    "gene" => "#66bb66",
-    "mRNA" => "white",
-    "exon" => "#4B76E8",
-    # "protein_match" => "",
-    # "match" => "",
-    "match_part" => "#6666bb",
-    # "contig" => "",
-    # "translated_nucleotide_match" => "",
-    # "transcript" => "",
-    "CDS" => "#bb6666"
-  }
-
-  def make_color(type_label, index)
-    if index <= @bg_colors.length
-      @bg_colors[index]
-    else
-      "#" << rand(0xFFFFFF).to_s(16)
-    end
+  def rand_color
+    "#" << rand(0xFFFFFF).to_s(16)
   end
 
-  @type_labels.each_with_index do |type, i|
-    unless @afra_colors.has_key?(type)  
-      @afra_colors[type] = make_color(type, i)
-    end
+  def make_type(id, color)
+    doc = REXML::Document.new "<TYPE id=\"#{id}\">\n<GLYPH>\n<BOX>\n<HEIGHT>11</HEIGHT>\n<FGCOLOR>black</FGCOLOR>\n<BGCOLOR>#{color}</BGCOLOR>\n<BUMP>yes</BUMP>\n<LABEL>yes</LABEL>\n</BOX></GLYPH></TYPE>\n"
+    doc.elements["TYPE"]
   end
 
+  stylesheet = File.open("./views/static/styles.xml", "r")
+  style_doc = REXML::Document.new stylesheet
+  style_doc_root = style_doc.root
+
+  TYPES_PATH = "DASSTYLE/STYLESHEET/CATEGORY/TYPE"
+
+  style_doc.elements.each(TYPES_PATH) do |elem|
+    @pre_loaded_types.push(elem.attributes["id"])
+  end
+
+  #Defined in DB but not pre-defined in styles.xml
+  @missing = @type_labels - @pre_loaded_types
+
+  #Defined in styles.xml but not in DB
+  @redundant = @pre_loaded_types - @type_labels
+  p @type_labels
+  p @redundant
+
+  @missing.each do |type|
+    new_elem = style_doc.elements[TYPES_PATH.chomp "/TYPE"].add(make_type(type, rand_color))
+    new_elem.add_attribute("id", type)
+  end
+
+  @redundant.each do |type|
+    style_doc.elements.delete("#{TYPES_PATH}[@id='#{type}']")
+  end
 
   response.headers["X-DAS-Capabilities"] = "features/1.1; unknown-segment/1.0; entry_points/1.1; sequence/1.1"
   response.headers["X-DAS-Server"] = request.env["SERVER_SOFTWARE"].split(" ")[0]
@@ -373,5 +390,5 @@ get '/das/rubydas/stylesheet' do
   response.headers["X-DAS-Status"] = "200"
   response.headers["X-DAS-Version"] = "DAS/1.6"
 
-  builder :stylesheet
+  style_doc.to_s
 end
