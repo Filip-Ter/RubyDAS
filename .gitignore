@@ -7,4 +7,5 @@ Gemfile.lock
 data/fasta/
 data/gff3/
 server.pid
+public/*
 

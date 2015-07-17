@@ -328,11 +328,9 @@ get '/das/rubydas/entry_points' do
 end
 
 get '/das/rubydas/stylesheet' do
-  #TODO make actual stylesheet implementation
-  #right now just hard coded in builder file 
   
   ##Load pre-defined stylesheet
-  ##Using REXML (
+  ##Using REXML 
   ##Remove elements not contained in DB and add random colors
   ##to those in DB but not in stylesheet
 
