@@ -123,6 +123,7 @@ rule '.db' => ['.gff'] do |t|
         sh "ruby gff2fasta_rake.rb #{t.source}"
         sh "ruby import_rake.rb #{t.source} #{t.name} --rewrite"
         sh "ruby import_rake.rb #{t.source.chomp(".gff").concat(".fasta")} #{t.name}"
+        sh "ruby gen_pages.rb #{t.name}"
     end
     sh "rm data/*.fasta"
 end
