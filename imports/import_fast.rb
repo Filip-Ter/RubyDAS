@@ -42,11 +42,11 @@ DataMapper.setup(:default, db_path)
 
 puts "CREATING DB"
 
-#unless rewrite
+unless rewrite
 	DataMapper.auto_upgrade!
-#else
+else
 	DataMapper.auto_migrate!
-#end
+end
 
 loader = (type == "gff3") ? RubyDAS::Loader::GFF3Fast.new(file_path) :  RubyDAS::Loader::FASTAFast.new(file_path)
 loader.store

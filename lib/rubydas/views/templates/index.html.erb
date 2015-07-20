@@ -3,13 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>RubyDAS - Dalliance</title>
-    <!-- meta name="viewport" content="width=device-width, initial-scale=1.0" -->
-
     <link href="http://biodalliance.org/bootstrap/css/bootstrap.css" rel="stylesheet">
+    
     <style type="text/css">
       body {
         padding-top: 80px;
-        /*padding-bottom: 40px;*/
         height: 100%; 
         }
 
@@ -26,10 +24,7 @@
     </style>
 
     <link href="http://biodalliance.org/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-
     <script language="javascript" src="http://www.biodalliance.org/release-0.13/dalliance-compiled.js"></script>
-
-
     <script language="javascript">
       new Browser({
         chr:          <%= "\'" + chr + "\'"%>, //Dynamic
@@ -38,8 +33,7 @@
         noPersist: true, //remove
         cookieKey:    <%= "\'" + chr[0..5] + "\'" %>,
 
-        //DAS Registry gone :(
-        coordSystem: { },
+        coordSystem: {},
 
         sources:     [{name:                 'DAS Sequence',      
                        uri:                  'http://localhost:4567/das/rubydas/',        
@@ -57,10 +51,8 @@
     </script>
 
   </head>
-
   <body>
-
-       <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -69,20 +61,16 @@
             <span class="icon-bar"></span>
           </button>
           <a class="brand" href="index.html">Biodalliance</a>
-
         </div>
       </div>
     </div>
 
-
     <div class="container">
-
       <div class="hero-unit">
-	       
          <h3 style='margin-top: 0px'>Genome Annotations for <%= chr %></h3>
         <div id="svgHolder"></div>
       </div>
-    </div> <!-- /container -->
+    </div> 
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="http://biodalliance.org/bootstrap-without-jquery.js"></script>
   </body>

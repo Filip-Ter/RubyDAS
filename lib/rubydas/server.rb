@@ -328,12 +328,10 @@ get '/das/rubydas/entry_points' do
 end
 
 get '/das/rubydas/stylesheet' do
-  
   ##Load pre-defined stylesheet
   ##Using REXML 
   ##Remove elements not contained in DB and add random colors
   ##to those in DB but not in stylesheet
-
 
   response.headers["X-DAS-Capabilities"] = "features/1.1; unknown-segment/1.0; entry_points/1.1; sequence/1.1"
   response.headers["X-DAS-Server"] = request.env["SERVER_SOFTWARE"].split(" ")[0]
