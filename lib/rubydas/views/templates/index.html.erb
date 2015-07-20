@@ -4,10 +4,7 @@
     <meta charset="utf-8">
     <title>RubyDAS - Dalliance</title>
     <!-- meta name="viewport" content="width=device-width, initial-scale=1.0" -->
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <!-- Le styles -->
     <link href="http://biodalliance.org/bootstrap/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
@@ -35,11 +32,11 @@
 
     <script language="javascript">
       new Browser({
-        chr:          'Si_gnF.scaffold02797', //Dynamic
-        viewStart:    5981804,
-        viewEnd:      6028493,
+        chr:          <%= "\'" + chr + "\'"%>, //Dynamic
+        viewStart:    <%= viewStart %>,
+        viewEnd:      <%= viewEnd %>,
         noPersist: true, //remove
-        cookieKey:    'si_gnf',
+        cookieKey:    <%= "\'" + chr[0..5] + "\'" %>,
 
         //DAS Registry gone :(
         coordSystem: { },
@@ -82,7 +79,7 @@
 
       <div class="hero-unit">
 	       
-         <h3 style='margin-top: 0px'>Fire Ant Genome Annotations</h3>
+         <h3 style='margin-top: 0px'>Genome Annotations for <%= chr %></h3>
         <div id="svgHolder"></div>
       </div>
     </div> <!-- /container -->

@@ -90,15 +90,13 @@ end
 #new
 desc 'Start server in sub-process'
 task :run_sub, [:db_name] do |t, args|
-    Dir.chdir('lib/rubydas') do
-        pid = Process.fork
+    pid = Process.fork
 
-        if pid.nil?
-            exec("ruby server.rb #{args[:db_name]}")
-        else
-            File.open("../../server.pid", "w") {|f| f << pid }
-            Process.detach(pid)
-        end
+    if pid.nil?
+        Rake::Task["run"].invoke(args[:db_name])
+    else
+        File.open("server.pid", "w") {|f| f << pid }
+        Process.detach(pid)
     end
 end
 

@@ -341,6 +341,6 @@ get '/das/rubydas/stylesheet' do
   response.headers["X-DAS-Status"] = "200"
   response.headers["X-DAS-Version"] = "DAS/1.6"
 
-  File.open("../../public/styles.xml") {|f| f.read }
-
+  folder = ARGV[0].delete(".db")
+  File.read("../../public/#{folder}/styles.xml")
 end

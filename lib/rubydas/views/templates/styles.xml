@@ -41,7 +41,7 @@
             <BOX>
               <HEIGHT>11</HEIGHT>
               <FGCOLOR>black</FGCOLOR>
-              <BGCOLOR>#4B76E8</BGCOLOR>
+              <BGCOLOR>#DADADA</BGCOLOR>
               <BUMP>yes</BUMP>
               <LABEL>yes</LABEL>
             </BOX>

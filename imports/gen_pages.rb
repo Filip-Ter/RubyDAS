@@ -2,29 +2,52 @@
 
 require 'rexml/document'
 require 'data_mapper'
+require 'erb'
+require 'fileutils'
 require_relative "../lib/rubydas/model/feature"
+require_relative "../lib/rubydas/model/sequence"
 
-def make_db_path
-	'sqlite://' << File.expand_path('..') << '/' << ARGV[0]
-end
+TEMPL_PATH = File.expand_path("../lib/rubydas/views/templates") << '/'
 
-DataMapper.setup(:default, make_db_path)
+db_path = 'sqlite://' << File.expand_path('..') << '/' << ARGV[0] << '.db'
+folder_path = File.expand_path('../public/' << ARGV[0].split("/")[1])
+
+FileUtils.mkdir_p(folder_path)
+
+puts db_path
+puts folder_path
+
+DataMapper.setup(:default, db_path)
 adapter = DataMapper.repository(:default).adapter
 
 existing_types = FeatureType.all().map { |t| (t.label != "") ? t.label : nil }.compact
+existing_eps = Sequence.all()
 
 def rand_color
-"#" << rand(0xFFFFFF).to_s(16)
+	"#" << rand(0xFFFFFF).to_s(16)
 end
 
 def make_type(id, color)
-doc = REXML::Document.new "<TYPE id=\"#{id}\">\n<GLYPH>\n<BOX>\n<HEIGHT>11</HEIGHT>\n<FGCOLOR>black</FGCOLOR>\n<BGCOLOR>#{color}</BGCOLOR>\n<BUMP>yes</BUMP>\n<LABEL>yes</LABEL>\n</BOX></GLYPH></TYPE>\n"
-doc.elements["TYPE"]
+	doc = REXML::Document.new "<TYPE id=\"#{id}\">\n<GLYPH>\n<BOX>\n<HEIGHT>11</HEIGHT>\n<FGCOLOR>black</FGCOLOR>\n" \
+							  "<BGCOLOR>#{color}</BGCOLOR>\n<BUMP>yes</BUMP>\n<LABEL>yes</LABEL>" \
+							  "\n</BOX></GLYPH></TYPE>\n"
+	doc.elements["TYPE"]
 end
 
-stylesheet = File.open("../lib/rubydas/views/templates/styles.xml", "r")
+def make_range(size)
+	#Difference between start and end should be no greater than 10e6 to avoid timeout
+	puts size
+	if size > 10**6.to_i
+		return (size - 10**6).to_i, size - 1 
+	else
+		return 1, size - 1
+	end	
+end
+
+##Styles
+
+stylesheet = File.read(TEMPL_PATH + "styles.xml")
 style_doc = REXML::Document.new stylesheet
-stylesheet.close
 style_doc_root = style_doc.root
 
 TYPES_PATH = "DASSTYLE/STYLESHEET/CATEGORY/TYPE"
@@ -50,7 +73,16 @@ end
 style_doc.elements.delete("#{TYPES_PATH}[@id='#{type}']")
 end
 
-File.open("../public/styles.xml", "w") { |f| f << style_doc.to_s}
+File.write(folder_path + "/styles.xml", style_doc.to_s)
 
-File.open("../public/index.html", "w") { |f| f << File.open("../lib/rubydas/views/templates/index.html", "r") { |f| f.read }}
-File.open("../public/main.css", "w") { |f| f << File.open("../lib/rubydas/views/templates/main.css", "r") { |f| f.read }}
+##Index
+
+#Maybe later:
+#existing_eps.each do |e|
+
+chr = existing_eps[0].public_id
+viewStart, viewEnd = make_range(existing_eps[0].length)
+	
+templ = ERB.new(File.read(TEMPL_PATH + "/index.html.erb"))
+File.write(folder_path << "/index.html", templ.result)
+
