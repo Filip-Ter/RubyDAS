@@ -50,8 +50,6 @@ end
 style_doc.elements.delete("#{TYPES_PATH}[@id='#{type}']")
 end
 
-puts make_db_path
-
 File.open("../public/styles.xml", "w") { |f| f << style_doc.to_s}
 
 File.open("../public/index.html", "w") { |f| f << File.open("../lib/rubydas/views/templates/index.html", "r") { |f| f.read }}

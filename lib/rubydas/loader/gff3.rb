@@ -13,6 +13,7 @@ module RubyDAS
     module Loader
         class GFF3
 
+            #Probably remove this later
             attr_reader :gff
 
             def initialize fname
