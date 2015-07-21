@@ -18,7 +18,7 @@ puts db_path
 puts folder_path
 
 DataMapper.setup(:default, db_path)
-adapter = DataMapper.repository(:default).adapter
+#adapter = DataMapper.repository(:default).adapter
 
 existing_types = FeatureType.all().map { |t| (t.label != "") ? t.label : nil }.compact
 existing_eps = Sequence.all()

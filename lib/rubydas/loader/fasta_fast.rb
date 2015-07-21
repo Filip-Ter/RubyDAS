@@ -43,7 +43,7 @@ module RubyDAS
 
 
             def store
-                puts "Storing #{@filename}"
+                puts "Storing FASTA #{@filename}"
                 ff = Bio::FlatFile.open(Bio::FastaFormat, @filename)
                 db_adapter = DataMapper.repository(:default).adapter 
 

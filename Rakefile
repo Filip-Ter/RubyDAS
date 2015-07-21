@@ -7,13 +7,17 @@ gem 'rdoc', '=4.2.0'
 require 'rdoc/rdoc'
 require 'rake/task'
 
+$:.unshift File.join(File.dirname(__FILE__), "lib")
+require "rubydas/loader/gff3_fast"
+require "rubydas/loader/fasta_fast"
+
 def gemspec
     @gemspec ||= begin
         Gem::Specification.load(File.expand_path('rubydas.gemspec'))
     end
 end
 
-task :default => :test
+task :default => :import
 
 desc 'Start a console session'
 task :console do
@@ -28,6 +32,10 @@ end
 desc 'Installs the gem locally'
 task :install => :package do
     sh "gem install pkg/#{gemspec.name}-#{gemspec.version}"
+end
+
+task :install_deps do
+    sh "bundle install"
 end
 
 desc 'Release the gem'
@@ -102,9 +110,10 @@ end
 
 desc 'Start server'
 task :run, [:db_name] do |t, args|
+    db_name = (args[:db_name].end_with?(".db")) ? args[:db_name] : args[:db_name] << ".db"
     Dir.chdir('lib/rubydas') do
         begin
-            system 'ruby server.rb ' + args[:db_name]
+            system 'ruby server.rb ' + db_name
         rescue Interrupt
             puts "Server Stopped"
         end
@@ -113,16 +122,37 @@ task :run, [:db_name] do |t, args|
 end
 
 gff_files = Rake::FileList.new("data/*.gff")
-task :import => gff_files.ext("db")
+task :import => [gff_files.ext("fasta"), gff_files.ext("db")]
+
+
+rule '.fasta' => ['.gff'] do |t|    
+    Dir.chdir("imports") do
+        sh "ruby gff2fasta_rake.rb #{t.source}"
+    end
+end
 
 rule '.db' => ['.gff'] do |t|
+    puts gff_files.class
     str = "Name : #{t.name}, Source: #{t.source}"
     Dir.chdir('imports') do
-        sh "ruby gff2fasta_rake.rb #{t.source}"
-        sh "ruby import_rake.rb #{t.source} #{t.name} --rewrite"
-        sh "ruby import_rake.rb #{t.source.chomp(".gff").concat(".fasta")} #{t.name}"
-        sh "ruby gen_pages.rb #{t.name}"
+        db_path = 'sqlite://' + File.expand_path("../" << t.name)
+        gff_path = File.expand_path("../" << t.source)
+        fasta_path = gff_path.chomp(".gff").concat(".fasta")
+        public_folder = t.name.chomp(".db")
+
+        DataMapper.setup(:default, db_path)
+        DataMapper.auto_migrate!
+
+        RubyDAS::Loader::GFF3Fast.new(gff_path).store
+
+        DataMapper.auto_upgrade!
+        RubyDAS::Loader::FASTAFast.new(fasta_path).store
+
+        sh "ruby gen_pages.rb #{public_folder}"
+
+        #Can be removed, doc says this explicitly stores some relationships which are
+        #otherwise lazily evaluated. We might not even have any
+        DataMapper.finalize
     end
-    sh "rm data/*.fasta"
 end
 
