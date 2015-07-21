@@ -80,6 +80,7 @@ File.write(folder_path + "/styles.xml", style_doc.to_s)
 #Maybe later:
 #existing_eps.each do |e|
 
+name = ARGV[0].split("/")[1]
 chr = existing_eps[0].public_id
 viewStart, viewEnd = make_range(existing_eps[0].length)
 	
