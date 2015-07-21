@@ -31,7 +31,7 @@
         viewStart:    <%= viewStart %>,
         viewEnd:      <%= viewEnd %>,
         noPersist: true,
-        cookieKey:    <%= "\'" + name + "\'" %>,
+        cookieKey:    <%= "\'" + @name + "\'" %>,
 
         coordSystem: {},
 
@@ -67,7 +67,7 @@
 
     <div class="container">
       <div class="hero-unit">
-         <h3 style='margin-top: 0px'>Annotations from <%= name %></h3>
+         <h3 style='margin-top: 0px'>Annotations from <%= @name %></h3>
         <div id="svgHolder"></div>
       </div>
     </div> 

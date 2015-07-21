@@ -10,6 +10,7 @@ require 'rake/task'
 $:.unshift File.join(File.dirname(__FILE__), "lib")
 require "rubydas/loader/gff3_fast"
 require "rubydas/loader/fasta_fast"
+require "rubydas/generator"
 
 def gemspec
     @gemspec ||= begin
@@ -156,7 +157,6 @@ rule '.fasta' => ['.gff'] do |t|
 end
 
 rule '.db' => ['.gff'] do |t|
-    puts gff_files.class
     str = "Name : #{t.name}, Source: #{t.source}"
 
     db_path = 'sqlite://' + File.expand_path(t.name)
@@ -172,9 +172,7 @@ rule '.db' => ['.gff'] do |t|
     DataMapper.auto_upgrade!
     RubyDAS::Loader::FASTAFast.new(fasta_path, ENV['interval']).store
 
-    Dir.chdir('setup') do 
-        sh "ruby gen_pages.rb #{public_folder}"
-    end
+    Generator.new(public_folder).create_public_folder
 
     #Can be removed, doc says this explicitly stores some relationships which are
     #otherwise lazily evaluated. We might not even have any
