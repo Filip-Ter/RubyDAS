@@ -35,10 +35,10 @@ def make_type(id, color)
 end
 
 def make_range(size)
-	#Difference between start and end should be no greater than 10e6 to avoid timeout
-	puts size
-	if size > 10**6.to_i
-		return (size - 10**6).to_i, size - 1 
+	#Difference between start and end should be no greater than 10e5 to not start on cluttered features
+	#Sometimes greater than 10e6 could lead to Dalliance timeout.
+	if size > 10**5.to_i
+		return (size - 10**5).to_i, size - 1 
 	else
 		return 1, size - 1
 	end	

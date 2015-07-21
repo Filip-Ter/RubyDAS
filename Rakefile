@@ -124,35 +124,44 @@ end
 gff_files = Rake::FileList.new("data/*.gff")
 task :import => [gff_files.ext("fasta"), gff_files.ext("db")]
 
-
 rule '.fasta' => ['.gff'] do |t|    
-    Dir.chdir("imports") do
-        sh "ruby gff2fasta_rake.rb #{t.source}"
+    fasta = File.open(t.name, "w")
+
+    reached = false
+    File.open(t.source, "r").each_line do |line|
+        if !reached && line.chomp == "##FASTA"
+            reached = true
+            next
+        end
+        if reached
+            fasta.write(line)
+        end
     end
 end
 
 rule '.db' => ['.gff'] do |t|
     puts gff_files.class
     str = "Name : #{t.name}, Source: #{t.source}"
-    Dir.chdir('imports') do
-        db_path = 'sqlite://' + File.expand_path("../" << t.name)
-        gff_path = File.expand_path("../" << t.source)
-        fasta_path = gff_path.chomp(".gff").concat(".fasta")
-        public_folder = t.name.chomp(".db")
 
-        DataMapper.setup(:default, db_path)
-        DataMapper.auto_migrate!
+    db_path = 'sqlite://' + File.expand_path(t.name)
+    gff_path = File.expand_path(t.source)
+    fasta_path = gff_path.chomp(".gff").concat(".fasta")
+    public_folder = t.name.chomp(".db")
 
-        RubyDAS::Loader::GFF3Fast.new(gff_path).store
+    DataMapper.setup(:default, db_path)
+    DataMapper.auto_migrate!
 
-        DataMapper.auto_upgrade!
-        RubyDAS::Loader::FASTAFast.new(fasta_path).store
+    RubyDAS::Loader::GFF3Fast.new(gff_path).store
 
+    DataMapper.auto_upgrade!
+    RubyDAS::Loader::FASTAFast.new(fasta_path).store
+
+    Dir.chdir('setup') do 
         sh "ruby gen_pages.rb #{public_folder}"
-
-        #Can be removed, doc says this explicitly stores some relationships which are
-        #otherwise lazily evaluated. We might not even have any
-        DataMapper.finalize
     end
+
+    #Can be removed, doc says this explicitly stores some relationships which are
+    #otherwise lazily evaluated. We might not even have any
+    DataMapper.finalize
 end
 
