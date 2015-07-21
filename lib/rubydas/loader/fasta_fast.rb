@@ -13,9 +13,10 @@ module RubyDAS
         class FASTAFast
             include FMT
 
-            def initialize filename
+            def initialize(filename, interval)
                 @filename = filename
                 reset
+                @interval = (interval == nil) ? 10**4 : interval.to_i
             end
 
             def reset
@@ -42,8 +43,9 @@ module RubyDAS
             end
 
 
-            def store
+            def store 
                 puts "Storing FASTA #{@filename}"
+
                 ff = Bio::FlatFile.open(Bio::FastaFormat, @filename)
                 db_adapter = DataMapper.repository(:default).adapter 
 
@@ -70,7 +72,7 @@ module RubyDAS
                             #STDOUT.flush
                         end
 
-                        if ctr > 10000
+                        if ctr > @interval
                             process db_adapter, @res_sequence_fragment
                             @res_sequence_fragment = SEQUENCE_FRAGMENT.dup
                             ctr = 0

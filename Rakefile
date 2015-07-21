@@ -96,8 +96,11 @@ task :build_test_fixture => [:build_test_db, :load_test_fa, :load_test_gff3] do
 end
 
 #new
+gff_files = Rake::FileList.new("data/*.gff")
+targets = [gff_files.ext("fasta"), gff_files.ext("db")]
+
 desc 'Start server in sub-process'
-task :run_sub, [:db_name] do |t, args|
+task :run_sub, [:db_name] => targets do |t, args|
     pid = Process.fork
 
     if pid.nil?
@@ -109,7 +112,7 @@ task :run_sub, [:db_name] do |t, args|
 end
 
 desc 'Start server'
-task :run, [:db_name] do |t, args|
+task :run, [:db_name] => targets do |t, args|
     db_name = (args[:db_name].end_with?(".db")) ? args[:db_name] : args[:db_name] << ".db"
     Dir.chdir('lib/rubydas') do
         begin
@@ -118,11 +121,24 @@ task :run, [:db_name] do |t, args|
             puts "Server Stopped"
         end
     end
-    #system 'ruby lib/rubydas/server.rb ' + args[:db_name]
 end
 
-gff_files = Rake::FileList.new("data/*.gff")
-task :import => [gff_files.ext("fasta"), gff_files.ext("db")]
+task :import, [:interval] do |t, args|
+    unless args[:interval] == nil
+        p args[:interval].split("=")[1].to_i
+        ENV['interval'] = args[:interval].split("=")[1]
+    end
+    #Workaround to make sure ENV is available before rules are invoked
+    Rake::Task['make_db'].invoke
+end
+
+task :make_db => targets
+
+task :clean, [:name] do |t, args|
+    sh "rm data/#{args[:name]}.fasta"
+    sh "rm data/#{args[:name]}.db"
+    sh "rm -rf public/#{args[:name]}"
+end
 
 rule '.fasta' => ['.gff'] do |t|    
     fasta = File.open(t.name, "w")
@@ -151,10 +167,10 @@ rule '.db' => ['.gff'] do |t|
     DataMapper.setup(:default, db_path)
     DataMapper.auto_migrate!
 
-    RubyDAS::Loader::GFF3Fast.new(gff_path).store
+    RubyDAS::Loader::GFF3Fast.new(gff_path, ENV['interval']).store
 
     DataMapper.auto_upgrade!
-    RubyDAS::Loader::FASTAFast.new(fasta_path).store
+    RubyDAS::Loader::FASTAFast.new(fasta_path, ENV['interval']).store
 
     Dir.chdir('setup') do 
         sh "ruby gen_pages.rb #{public_folder}"
