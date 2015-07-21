@@ -51,7 +51,7 @@ module RubyDAS
                 db_adapter.execute(@res_segments)
                 db_adapter.execute(@res_features)
 
-                puts "storing"
+                #puts "storing"
                 reset
             end
 
@@ -71,7 +71,7 @@ module RubyDAS
 
             def store
                 gff = Bio::GFF::GFF3.new(File.open(@fname))
-                puts "storing #{fmt @fname}"
+                puts "Storing GFF #{fmt @fname}"
                 db_adapter = DataMapper.repository(:default).adapter 
                 
                 ctr = 0
