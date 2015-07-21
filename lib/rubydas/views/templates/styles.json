@@ -1,0 +1,8 @@
+[
+	{"gene" : ["box", "#66bb66"]},
+	{"mRNA" : ["line", "white"]},
+	{"transcript" : ["line", "white"]},
+	{"exon" : ["box", "#DADADA"]},
+	{"match_part" : ["box", "#6666bb"]},
+	{"CDS" : ["box", "#bb6666"]}
+]

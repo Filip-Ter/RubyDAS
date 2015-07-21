@@ -57,7 +57,7 @@ module RubyDAS
 
 
 
-            def initialize fname
+            def initialize(fname, interval)
                 @types = Hash[]
                 @segments = Hash[]
                 @fname = fname
@@ -65,17 +65,21 @@ module RubyDAS
                 @res_features = "INSERT INTO FEATURES VALUES "
                 @res_feature_types = "INSERT OR IGNORE INTO FEATURE_TYPES VALUES "
                 @res_segments = "INSERT OR IGNORE INTO SEGMENTS VALUES " 
-                ##CREATES
+
+                @interval = (interval == nil) ? 10**4 : interval.to_i
+                #p "GFF Interval: " + @interval.to_s
             end
 
 
             def store
-                gff = Bio::GFF::GFF3.new(File.open(@fname))
                 puts "Storing GFF #{fmt @fname}"
+
+                gff = Bio::GFF::GFF3.new(File.open(@fname))
                 db_adapter = DataMapper.repository(:default).adapter 
                 
                 ctr = 0
                 feature_id = 0
+
                 gff.records.each do |rec|
                     args = Hash.new
 
@@ -118,7 +122,7 @@ module RubyDAS
                     @res_segments << "(#{fmt args[:segment].id}, #{fmt args[:segment].public_id}, " \
                                                    "#{fmt args[:segment].segment_type}, #{fmt args[:segment].label}), "
                     ctr += 1
-                        if ctr > 10000
+                        if ctr > @interval
                             insert(db_adapter)
                             ctr = 0
                         end
